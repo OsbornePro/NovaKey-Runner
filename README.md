@@ -39,5 +39,50 @@ For now:
 ## 🧪 Development
 
 ### Requirements
-- Node.js / Go
+- Node.js / Go / Python *(TBD — update as needed)*
 - Git
+
+### Local Development
+```bash
+git clone https://github.com/novakey/NovaKey-Runner.git
+cd NovaKey-Runner
+# setup steps coming soon
+```
+
+---
+
+## 🔐 Security
+
+Security issues should be reported responsibly.
+Please see [`SECURITY.md`](./SECURITY.md) for details.
+
+---
+
+## 📄 License
+
+License information will be added before the first stable release.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+* Fork the repo
+* Create a feature branch
+* Submit a pull request
+
+More detailed contribution guidelines will be added soon.
+
+---
+
+## 🧠 Maintainers
+
+Maintained by Robert H. Osborne (OsbornePro) - **NovaKey Team**.
+
+---
+
+## 📬 Contact
+
+**Email:** [security@novakey.app](mailto:security@novakey.app)  
+For questions or discussions, open an issue or reach out through official NovaKey channels.
