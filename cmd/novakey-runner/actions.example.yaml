@@ -1,0 +1,51 @@
+version: 1
+
+defaults:
+  timeout_ms: 15000
+  max_stdout_bytes: 65536
+  max_stderr_bytes: 65536
+  workdir: /var/lib/novakey/actions
+  env:
+    PATH: "/usr/sbin:/usr/bin:/sbin:/bin"
+  max_concurrency: 1
+  cooldown_ms: 0
+  allow_network: false
+
+actions:
+  restart_service:
+    description: "Restart a systemd service (Linux)"
+    exec: ["/usr/bin/sudo","-n","/bin/systemctl","restart","{name}"]
+    requires: {arm: true, approve: true}
+    policy:
+      cooldown_ms: 30000
+      max_concurrency: 1
+      allow_network: false
+    params:
+      name:
+        type: string
+        regex: "^[a-zA-Z0-9_.@-]{1,64}$"
+
+  semaphore_trigger:
+    description: "Trigger a Semaphore pipeline via a local script (network allowed)"
+    exec: ["/usr/local/lib/novakey/actions/semaphore_trigger.sh","--project","{project}","--pipeline","{pipeline}"]
+    requires: {arm: true, approve: true}
+    policy:
+      timeout_ms: 20000
+      allow_network: true
+      cooldown_ms: 10000
+      max_concurrency: 1
+    params:
+      project: {type: string, regex: "^[A-Za-z0-9_-]{1,64}$"}
+      pipeline: {type: string, regex: "^[A-Za-z0-9_-]{1,64}$"}
+
+  windows_powershell_example:
+    description: "Windows: run a pinned PowerShell script"
+    exec: ["C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe","-NoProfile","-NonInteractive","-ExecutionPolicy","Bypass","-File","C:\\\\ProgramData\\\\NovaKey\\\\actions\\\\do_thing.ps1","-Target","{target}"]
+    requires: {arm: true, approve: true}
+    policy:
+      timeout_ms: 20000
+      allow_network: true
+      cooldown_ms: 10000
+      max_concurrency: 1
+    params:
+      target: {type: string, regex: "^[A-Za-z0-9_.:-]{1,128}$"}
